@@ -46,6 +46,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 	
 # Copy the source code into the container. Only copy relevant files.
 COPY app.py app.py
+COPY images images
 
 # Change permissions of working directory to appuser
 RUN chown ${GID}:${UID} -R ${WORKDIR}

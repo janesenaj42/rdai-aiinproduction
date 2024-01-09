@@ -46,10 +46,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 	
 # Set hugginface default directory
 ENV HF_HOME=${WORKDIR}/huggingface
-	
-# Manually download the model as a docker layer for caching because it is taking too long via the AutoModelForCausalLM.from_pretrained() method
-RUN python -m pip install huggingface-hub
-RUN --mount=type=cache,target=/root/.cache/pip huggingface-cli download TheBloke/Llama-2-7b-Chat-GGUF llama-2-7b-chat.Q2_K.gguf
 
 # Copy the source code into the container. Only copy relevant files.
 COPY main.py main.py
