@@ -12,7 +12,7 @@ docker compose up -d
 # Check container logs
 docker logs -f rdai-aiinproducion
 ```
-You may check the docker logs to see if the model has loaded. The model takes a bit of time to download (around 15 minutes). Please be patient.
+You may check the docker logs to see if the model has loaded. The model takes a bit of time to download (around 15 minutes on first start). Please be patient.
 
-Go to http://localhost:7860.
+Go to http://localhost:7860 for frontend. Go to http://localhost:8000/docs for backend API documentation.
 

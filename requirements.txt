@@ -1,2 +1,2 @@
-ctransformers>=0.2.24
 gradio
+pydantic

@@ -44,22 +44,24 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 	
+# Set hugginface default directory
+ENV HF_HOME=${WORKDIR}/huggingface
+	
+# Manually download the model as a docker layer for caching because it is taking too long via the AutoModelForCausalLM.from_pretrained() method
+RUN python -m pip install huggingface-hub
+RUN --mount=type=cache,target=/root/.cache/pip huggingface-cli download TheBloke/Llama-2-7b-Chat-GGUF llama-2-7b-chat.Q2_K.gguf
+
 # Copy the source code into the container. Only copy relevant files.
-COPY app.py app.py
+COPY main.py main.py
 
 # Change permissions of working directory to appuser
 RUN chown ${GID}:${UID} -R ${WORKDIR}
 
-ARG GRADIO_SERVER_PORT=7860
-ARG GRADIO_SERVER_NAME=0.0.0.0
-ENV GRADIO_SERVER_PORT=${GRADIO_SERVER_PORT}
-ENV GRADIO_SERVER_NAME=${GRADIO_SERVER_NAME}
-
 # Expose the port that the application listens on.
-EXPOSE ${GRADIO_SERVER_PORT}
+EXPOSE 8000
 
 # Switch to the non-privileged user to run the application.
 USER appuser
 
 # Run the application.
-CMD ["bash", "-c", "python3 app.py"]
+CMD ["bash", "-c", "python3 main.py"]

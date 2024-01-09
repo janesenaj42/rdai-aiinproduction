@@ -1,0 +1,4 @@
+ctransformers>=0.2.24
+uvicorn
+fastapi
+pydantic
